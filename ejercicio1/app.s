@@ -1,53 +1,248 @@
-	.equ SCREEN_WIDTH, 		640
-	.equ SCREEN_HEIGH, 		480
-	.equ BITS_PER_PIXEL,  	32
-
-	.equ GPIO_BASE,      0x3f200000
-	.equ GPIO_GPFSEL0,   0x00
-	.equ GPIO_GPLEV0,    0x34
-
-	.globl main
+.equ SCREEN_WIDTH, 		640
+.equ SCREEN_HEIGHT, 	480
+.equ BITS_PER_PIXEL,  	32
+.equ TAM_PIXEL,        2
+.globl main
 
 main:
-	// x0 contiene la direccion base del framebuffer
- 	mov x20, x0	// Guarda la dirección base del framebuffer en x20
-	//---------------- CODE HERE ------------------------------------
+	// CONVENCIONES:
+	// x0 lo utilizamos para pintar el framebuffer
+	// (x1, x2) = coordenadas (x, y) de un pixel para rutinas 
+	// x3 = color a pintar
+	// x4, x5, x6 = parametros alto, ancho, radio para rutinas
+	// x9 - x15  temporales de uso general
+	// x19 Guarda el ancho de la pantalla
+	// x20 Guarda la dirección base del framebuffer
+	// x26,...,x21 Guarda temporalmente direcciones de memoria para hacer branch
+	// x27 Guarda direccion de memoria para hacer salto a main
 
-	movz x10, 0xC7, lsl 16
-	movk x10, 0x1585, lsl 00
-
-	mov x2, SCREEN_HEIGH         // Y Size
-loop1:
-	mov x1, SCREEN_WIDTH         // X Size
-loop0:
-	stur w10,[x0]  // Colorear el pixel N
-	add x0,x0,4	   // Siguiente pixel
-	sub x1,x1,1	   // Decrementar contador X
-	cbnz x1,loop0  // Si no terminó la fila, salto
-	sub x2,x2,1	   // Decrementar contador Y
-	cbnz x2,loop1  // Si no es la última fila, salto
-
-	// Ejemplo de uso de gpios
-	mov x9, GPIO_BASE
-
-	// Atención: se utilizan registros w porque la documentación de broadcom
-	// indica que los registros que estamos leyendo y escribiendo son de 32 bits
-
-	// Setea gpios 0 - 9 como lectura
-	str wzr, [x9, GPIO_GPFSEL0]
-
-	// Lee el estado de los GPIO 0 - 31
-	ldr w10, [x9, GPIO_GPLEV0]
-
-	// And bit a bit mantiene el resultado del bit 2 en w10
-	and w11, w10, 0b10
-
-	// w11 será 1 si había un 1 en la posición 2 de w10, si no será 0
-	// efectivamente, su valor representará si GPIO 2 está activo
-	lsr w11, w11, 1
-
-	//---------------------------------------------------------------
-	// Infinite Loop
-
+ 	mov x20, x0				    // Guarda la direccion base del framebuffer en x20
+	mov x19, SCREEN_WIDTH 	    		// Guarda el ancho de la pantalla en x19
+//---------------------------------------- CODIGO ------------------------------------
+//  PINTAMOS FONDO
+	movz x3, 0xC7, lsl 16
+	movk x3, 0x1585, lsl 00
+	bl pintar_fondo
+//------------------------------------------------------------------------------------
+//  PINTAMOS PIXEL
+	movz x3, 0x33, lsl 16
+	movk x3, 0x3333, lsl 00
+	mov x1,#2
+	mov x2,#2
+	bl pintar_pixel_minimo
+//------------------------------------------------------------------------------------
+//  PINTAMOS RECTANGULO
+	mov x1, #0                // variable x
+	mov x2, #0                 // variable y
+	movz x3, 0x00, lsl 16 
+	movk x3, 0xF000, lsl 00 
+	mov x4, #1		            // alto (en pixeles de TAM PIXEL)
+	mov x5, #320		            // ancho
+	bl pintar_rectangulo
+//--------------------------------------------------------------------------------
+	movz x3, 0x00, lsl 16       // defino un color
+    movk x3, 0x0000, lsl 0      // termino de definir un color
+    mov x1, #100                // coordenada x del centro
+    mov x2, #100                // coordenada y del centro
+    mov x6, #100                // radio del círculo
+    bl pintar_circunferencia    // llamada a la subrutina
 InfLoop:
 	b InfLoop
+//--------------------------------------------------------------------------------
+
+
+
+
+//------------------------SUB-RUTINAS/FUNCIONES-----------------------------------
+
+// --------------------- calcular_direccion (x, y) ---------------------------------------------------------
+// Calcula la direccion de memoria del pixel, indicado por el par ordenado (x, y).
+
+calcular_direccion: 
+	mul x0, x2, x19         // (y * 640)
+	add x0,	x0, x1          // [x + (y * 640)]
+	lsl x0, x0, #2          // 4 * [x + (y * 640)]
+	add x0, x0, x20         // Dirección de inicio + 4 * [x + (y * 640)]
+	br lr
+
+// ------------------------ pintar_fondo (color) ---------------------------------------
+// Pinta todo el fondo del color indicado iniciando por la esquina superior izquierda
+
+pintar_fondo:
+		mov x2, SCREEN_HEIGHT   // Contador Y
+	loop_1_fondo:
+		mov x1, SCREEN_WIDTH    // Contador X
+	loop_0_fondo:
+		stur w3, [x0]  		    // Colorear el pixel N
+		add x0, x0, 4	   	    // Siguiente pixel
+		sub x1, x1, 1	   	    // Decrementar contador X
+		cbnz x1, loop_0_fondo   // Si no terminó la fila, salto
+		sub x2, x2, 1	  	    // Decrementar contador Y
+		cbnz x2, loop_1_fondo   // Si no es la última fila, salto
+
+br lr		   					// Retorna al punto del codigo en el que estaba
+
+// ---------------------pintar_pixel_minimo(x, y, color): -----------------------------------
+//Pinta un pixel cuadrado de lado TAM_PIXEL
+pintar_pixel_minimo:
+		mov x27, lr 				// Guardamos direccion de retorno a main
+		bl calcular_direccion		// DirIniPintar = DirInicioFramBuf + 4 * [x + (y * 640)]
+		mov lr, x27 				// Restablecemos la direccion del main para poder volver
+		mov x12, x10 				// Resguardo valores temp de contador
+		mov x11, x9					// Resguardo valores temp de contador
+		mov x10, TAM_PIXEL          // Establecemos X10 como contador Y Size --> Alto
+	loop_1_pixel:
+		mov x9, TAM_PIXEL			// Establecemos X9 como contador X Size --> Ancho
+	loop_0_pixel:
+		stur w3, [x0]   			// Colorear el pixel N
+		add x0, x0, 4	    		// Siguiente pixel
+		sub x9, x9, 1	    		// Decrementar contador X
+		cbnz x9, loop_0_pixel   	// Si no terminó la fila, salto
+		sub x10, x10, 1				// Decrementar contador Y
+		add x2, x2, 1 				// (y + 1) Pasamos a la fila siguiente 
+		mov x27, lr 				// Resguardamos direccion del main para poder regresar
+		bl calcular_direccion		// calcular_direccion(x, y+1, color)
+		mov lr, x27 				// Restablecemos la direccion del main para volver
+		cbnz x10,loop_1_pixel 	    // Si no es la última fila, salto
+		mov x10, x12 				// Restablezco valores temp de contador
+		mov x9, x11					// Restablezco valores temp de contador
+
+br lr 
+
+// ----------------- pintar_rectangulo(x, y, color, alto, ancho) -----------------
+//pinta un rectangulo a partir de pixeles cuadrados de tamaño TAM_PIXEL
+pintar_rectangulo:
+		mov x27, lr 				// Guardamos direccion del main para saltar de nuevo
+		bl calcular_direccion		// Calculo direccion donde iniciar a pintar primer pixel
+		mov lr, x27 				// Restablecemos la direccion del main para poder volver
+		mov x15, x1 				// Resguardo dir de x en x15 para recup referencia inicio para pintar 
+		mov x10, x4         		// Establecemos X10 como contador Y Size --> Alto
+	loop_1_rectangulo:
+		mov x9, x5     				// Establecemos X9 como contador X Size --> Ancho 
+	loop_0_rectangulo:		
+		mov x26, lr 				// Guardamos direccion del main para saltar de nuevo
+		bl pintar_pixel_minimo		// Pintamos pixel con el pincel
+		mov lr, x26 				// Restablecemos la direccion del main para poder volver
+		add x1, x1, TAM_PIXEL 		// Siguiente pixel coordenada x avanzamos de a tam_pixel
+		sub x2, x2, TAM_PIXEL  		// Restablecemos referencia para la fila donde pintar
+		mov x27, lr 				// Guardamos direccion del main para saltar de nuevo
+		bl calcular_direccion		// Restablezco la direccion de referencia x0 para ese "pixel"
+		mov lr, x27 				// Restablecemos la direccion del main para poder volver
+		sub x9, x9, 1	    		// Decrementar contador X
+		cbnz x9, loop_0_rectangulo  // Si no terminó la fila, salto
+		sub x10, x10, 1				// Decrementar contador Y
+		mov x1, x15					// Restablezco referencia para pintar
+		add x2, x2, TAM_PIXEL 		// Pasamos a la fila siguiente 
+		mov x27, lr 				// Resguardamos direccion del main para poder regresar
+		bl calcular_direccion		// cal_dir(x, y+1, color)
+		mov lr, x27 				// Restablecemos la direccion del main para volver
+		cbnz x10,loop_1_rectangulo 	// Si no es la última fila, salto
+		br lr 
+// -----------------pintar_punto(x, y, color): -----------------
+//Pinta un pixel 1x1 en determinada posicion
+pintar_punto:
+	mov x25,lr
+	bl calcular_direccion
+	mov lr, x25
+	stur w3,[x0]
+	br lr
+// -----------------pintar_circunferencia (xc, yc, radio, color): -----------------
+//Pinta una circunferencia de radio r y centro (xc,yx)
+pintar_circunferencia:
+		mov x7, #0         // x7 = 0, x = 0
+		mov x8, x6        // x = y = r
+		mov x11, #3        // x11 = 3
+		lsl x12, x6, #1    // x12 = 2 * r (shift lógico a la izquierda por 1 bit)
+		sub x11, x11, x12  // x11 = 3 - 2*r → p o d
+		mov x27, lr //guardo punto de retorno a main
+	ciclo_bresenham:
+    	bl dibujar_octantes
+    	cmp x7, x8
+    	b.ge fin_circulo
+    	cmp x11, #0
+    	b.le continuar_misma_y
+		sub x12,x7,x8 //x-y
+		lsl x12,x12,#2 // *4 
+    	add x11,x11,x12
+    	add x11, x11, #10
+    	add x7,x7,#1
+    	sub x8,x8,#1
+		b ciclo_bresenham
+	continuar_misma_y:
+		lsl x12,x7,#2
+		add x11,x11,x12
+		add x11,x11,#6
+		add x7,x7,#1
+    	b ciclo_bresenham
+	fin_circulo:
+		mov lr, x27
+    	br lr
+	dibujar_octantes:
+    // Centro x1 = cx, x2 = cy, x3 = color
+		mov x26,lr //guardo direccion de retorno a bl dibujar_octantes
+		mov x10, x1  // cx
+		mov x12, x2  // cy
+		
+		// Punto 1: (cx + x, cy + y)
+		add x13, x10, x7
+		add x14, x12, x8
+		mov x1, x13
+		mov x2, x14
+		bl pintar_punto
+
+		// Punto 2: (cx - x, cy + y)
+		sub x13, x10, x7
+		add x14, x12, x8
+		mov x1, x13
+		mov x2, x14
+		bl pintar_punto
+
+		// Punto 3: (cx + x, cy - y)
+		add x13, x10, x7
+		sub x14, x12, x8
+		mov x1, x13
+		mov x2, x14
+		bl pintar_punto
+
+		// Punto 4: (cx - x, cy - y)
+		sub x13, x10, x7
+		sub x14, x12, x8
+		mov x1, x13
+		mov x2, x14
+		bl pintar_punto
+
+		// Punto 5: (cx + y, cy + x)
+		add x13, x10, x8
+		add x14, x12, x7
+		mov x1, x13
+		mov x2, x14
+		bl pintar_punto
+
+		// Punto 6: (cx - y, cy + x)
+		sub x13, x10, x8
+		add x14, x12, x7
+		mov x1, x13
+		mov x2, x14
+		bl pintar_punto
+
+		// Punto 7: (cx + y, cy - x)
+		add x13, x10, x8
+		sub x14, x12, x7
+		mov x1, x13
+		mov x2, x14
+		bl pintar_punto
+
+		// Punto 8: (cx - y, cy - x)
+		sub x13, x10, x8
+		sub x14, x12, x7
+		mov x1, x13
+		mov x2, x14
+		bl pintar_punto
+
+		mov x1,x10  //reestablzco xc original
+		mov x2,x12  //reestablezco yc original
+		mov lr, x26 //reestablezco posicion de retorno
+		br lr //retorno
+
+
+//--------
