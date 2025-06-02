@@ -32,8 +32,8 @@ main:
 	mov x19, SCREEN_WIDTH 	    		// Guarda el ancho de la pantalla en x19
 //---------------------------------------- CODIGO ------------------------------------
 //  PINTAMOS FONDO
-	movz x3, 0xC7, lsl 16
-	movk x3, 0x1585, lsl 00
+	movz x3, 0x00, lsl 16
+	movk x3, 0x0000, lsl 00
 	bl pintar_fondo
 //------------------------------------------------------------------------------------
 //  PINTAMOS PIXEL
@@ -45,19 +45,27 @@ main:
 //------------------------------------------------------------------------------------
 //  PINTAMOS RECTANGULO
 	mov x1, #0                // variable x
-	mov x2, #0                 // variable y
+	mov x2, #50                 // variable y
 	movz x3, 0x00, lsl 16 
 	movk x3, 0xF000, lsl 00 
-	mov x4, #1		            // alto (en pixeles de TAM PIXEL)
-	mov x5, #320		            // ancho
-	bl pintar_rectangulo
+	mov x4, #1	            // alto (en pixeles de TAM PIXEL)
+	mov x5, #200		            // ancho
+	bl pintar_rectangulo_aux
+//--------------------------------------------------------------------------------	
+	movz x3, 0x8F, lsl 16       // defino un color
+    movk x3, 0xF55F, lsl 0      // termino de definir un color
+    mov x1, #200                // coordenada x del centro
+    mov x2, #200                // coordenada y del centro
+    mov x6, #70            // radio del círculo
+    bl pintar_circulo    // llamada a la subrutina
 //--------------------------------------------------------------------------------
-	movz x3, 0x00, lsl 16       // defino un color
-    movk x3, 0x0000, lsl 0      // termino de definir un color
-    mov x1, #100                // coordenada x del centro
+	movz x3, 0x72, lsl 16       // defino un color
+    movk x3, 0xF111, lsl 0      // termino de definir un color
+    mov x1, #100               // coordenada x del centro
     mov x2, #100                // coordenada y del centro
-    mov x6, #100                // radio del círculo
-    bl pintar_circunferencia    // llamada a la subrutina
+    mov x6, #120         // radio del círculo
+    bl pintar_circulo    // llamada a la subrutina
+//--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 // DIBUJAMOS ARCADE 1
 	bl arcade 					// llamamos a subrutina externa
@@ -161,6 +169,28 @@ pintar_punto:
 	mov lr, x25
 	stur w3,[x0]
 	br lr
+
+
+pintar_rectangulo_aux:
+		mov x24,lr
+		bl calcular_direccion
+		mov lr, x24
+		mov x9,x4 //Contador con altura ingresada
+	loop_2_rectangulo_aux:
+		mov x10,x5 //Contador con ancho ingresado
+	loop_1_rectangulo_aux:
+		stur w3,[x0]
+		add x0,x0,4
+		sub x10,x10,1
+		cbnz x10,loop_1_rectangulo_aux
+		add x2,x2,1
+		sub x9,x9,1
+		mov x24,lr
+		bl calcular_direccion
+		mov lr, x24
+		cbnz x9,loop_2_rectangulo_aux
+		br lr
+
 // -----------------pintar_circunferencia (xc, yc, radio, color): -----------------
 //Pinta una circunferencia de radio r y centro (xc,yx)
 pintar_circunferencia:
@@ -173,7 +203,7 @@ pintar_circunferencia:
 	ciclo_bresenham:
     	bl dibujar_octantes
     	cmp x7, x8
-    	b.ge fin_circulo
+    	b.ge fin_circunferencia
     	cmp x11, #0
     	b.le continuar_misma_y
 		sub x12,x7,x8 //x-y
@@ -189,7 +219,7 @@ pintar_circunferencia:
 		add x11,x11,#6
 		add x7,x7,#1
     	b ciclo_bresenham
-	fin_circulo:
+	fin_circunferencia:
 		mov lr, x27
     	br lr
 	dibujar_octantes:
@@ -203,6 +233,7 @@ pintar_circunferencia:
 		add x14, x12, x8
 		mov x1, x13
 		mov x2, x14
+		
 		bl pintar_punto
 
 		// Punto 2: (cx - x, cy + y)
@@ -258,6 +289,122 @@ pintar_circunferencia:
 		mov x2,x12  //reestablezco yc original
 		mov lr, x26 //reestablezco posicion de retorno
 		br lr //retorno
+//_-----------------------------------------------------------------------------------
 
+pintar_circulo:
+		mov x7, #0         // x7 = 0, x = 0
+		mov x8, x6        // x = y = r
+		mov x11, #3        // x11 = 3
+		lsl x12, x6, #1    // x12 = 2 * r (shift lógico a la izquierda por 1 bit)
+		sub x11, x11, x12  // x11 = 3 - 2*r → p o d
+		mov x27, lr //guardo punto de retorno a main
+	ciclo_bresenham_circulo:
+    	bl dibujar_octantes_circulo
+    	cmp x7, x8
+    	b.ge fin_circulo
+    	cmp x11, #0
+    	b.le continuar_misma_y_circulo
+		sub x12,x7,x8 //x-y
+		lsl x12,x12,#2 // *4 
+    	add x11,x11,x12
+    	add x11, x11, #10
+    	add x7,x7,#1
+    	sub x8,x8,#1
+		b ciclo_bresenham_circulo
+	continuar_misma_y_circulo:
+		lsl x12,x7,#2
+		add x11,x11,x12
+		add x11,x11,#6
+		add x7,x7,#1
+    	b ciclo_bresenham_circulo
+	fin_circulo:
+		mov lr, x27
+    	br lr
+	dibujar_octantes_circulo:
+    // Centro x1 = cx, x2 = cy, x3 = color
+		mov x26,lr //guardo direccion de retorno a bl dibujar_octantes
+		mov x23, x1  // cx
+		mov x12, x2  // cy
+		
+		// Punto 1: (cx + x, cy + y)
+		add x13, x23, x7
+		add x14, x12, x8
+		mov x1, x13
+		mov x2, x14
+
+		bl pintar_punto
+
+		// Punto 2: (cx - x, cy + y)
+		sub x13, x23, x7
+		add x14, x12, x8
+		mov x1, x13
+		mov x2, x14
+
+		sub x15,x23,x1
+		//mov x15,x10
+		mov x4,#1
+		add x15,x15,1
+		lsl x15, x15,#1
+		mov x5,x15
+
+		bl pintar_rectangulo_aux
+
+		//mov x10,x15
+
+		// Punto 3: (cx + x, cy - y)
+		add x13, x23, x7
+		sub x14, x12, x8
+		mov x1, x13
+		mov x2, x14
+		bl pintar_punto
+
+		// Punto 4: (cx - x, cy - y)
+		sub x13, x23, x7
+		sub x14, x12, x8
+		mov x1, x13
+		mov x2, x14
+		bl pintar_rectangulo_aux
+
+		// Punto 5: (cx + y, cy + x)
+		add x13, x23, x8
+		add x14, x12, x7
+		mov x1, x13
+		mov x2, x14
+		bl pintar_punto
+
+		// Punto 6: (cx - y, cy + x)
+		sub x13, x23, x8
+		add x14, x12, x7
+		mov x1, x13
+		mov x2, x14
+
+		sub x15,x23,x1
+		//mov x15,x10
+		mov x4,#1
+		add x15,x15,1
+		lsl x15, x15,#1
+		mov x5,x15
+
+		bl pintar_rectangulo_aux
+
+
+		// Punto 7: (cx + y, cy - x)
+		add x13, x23, x8
+		sub x14, x12, x7
+		mov x1, x13
+		mov x2, x14
+		bl pintar_punto
+
+		// Punto 8: (cx - y, cy - x)
+		sub x13, x23, x8
+		sub x14, x12, x7
+		mov x1, x13
+		mov x2, x14
+		bl pintar_rectangulo_aux
+
+		mov x1,x23  //reestablzco xc original
+		mov x2,x12  //reestablezco yc original
+		mov lr, x26 //reestablezco posicion de retorno
+		br lr //retorno
 
 //--------
