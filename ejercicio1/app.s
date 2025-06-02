@@ -32,40 +32,12 @@ main:
 	mov x19, SCREEN_WIDTH 	    		// Guarda el ancho de la pantalla en x19
 //---------------------------------------- CODIGO ------------------------------------
 //  PINTAMOS FONDO
-	movz x3, 0x00, lsl 16
-	movk x3, 0x0000, lsl 00
+	movz x3, 0xCC, lsl 16
+	movk x3, 0xCCCC, lsl 00
 	bl pintar_fondo
 //------------------------------------------------------------------------------------
-//  PINTAMOS PIXEL
-	movz x3, 0x33, lsl 16
-	movk x3, 0x3333, lsl 00
-	mov x1,#2
-	mov x2,#2
-	bl pintar_pixel_minimo
-//------------------------------------------------------------------------------------
-//  PINTAMOS RECTANGULO
-	mov x1, #0                // variable x
-	mov x2, #50                 // variable y
-	movz x3, 0x00, lsl 16 
-	movk x3, 0xF000, lsl 00 
-	mov x4, #1	            // alto (en pixeles de TAM PIXEL)
-	mov x5, #200		            // ancho
-	bl pintar_rectangulo_aux
-//--------------------------------------------------------------------------------	
-	movz x3, 0x8F, lsl 16       // defino un color
-    movk x3, 0xF55F, lsl 0      // termino de definir un color
-    mov x1, #200                // coordenada x del centro
-    mov x2, #200                // coordenada y del centro
-    mov x6, #70            // radio del círculo
-    bl pintar_circulo    // llamada a la subrutina
-//--------------------------------------------------------------------------------
-	movz x3, 0x72, lsl 16       // defino un color
-    movk x3, 0xF111, lsl 0      // termino de definir un color
-    mov x1, #100               // coordenada x del centro
-    mov x2, #100                // coordenada y del centro
-    mov x6, #120         // radio del círculo
-    bl pintar_circulo    // llamada a la subrutina
-//--------------------------------------------------------------------------------
+
+
 //--------------------------------------------------------------------------------
 // DIBUJAMOS ARCADE 1
 	bl arcade 					// llamamos a subrutina externa
