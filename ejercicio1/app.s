@@ -1,8 +1,20 @@
-.equ SCREEN_WIDTH, 		640
-.equ SCREEN_HEIGHT, 	480
-.equ BITS_PER_PIXEL,  	32
-.equ TAM_PIXEL,        2
+//Incluimos las constantes definidas en modulo constantes.s
+.include "constantes.s"
+
+//----------------------------------------------------------------------------------
+
+// Declaramos rutinas como globales
 .globl main
+.global pintar_pixel_minimo
+.global calcular_direccion
+.global pintar_rectangulo
+.global pintar_punto
+.global pintar_circunferencia
+
+// Importamos rutinas externas
+.extern arcade
+
+//----------------------------------------------------------------------------------
 
 main:
 	// CONVENCIONES:
@@ -46,6 +58,10 @@ main:
     mov x2, #100                // coordenada y del centro
     mov x6, #100                // radio del círculo
     bl pintar_circunferencia    // llamada a la subrutina
+//--------------------------------------------------------------------------------
+// DIBUJAMOS ARCADE 1
+	bl arcade 					// llamamos a subrutina externa
+
 InfLoop:
 	b InfLoop
 //--------------------------------------------------------------------------------
@@ -106,7 +122,7 @@ pintar_pixel_minimo:
 		cbnz x10,loop_1_pixel 	    // Si no es la última fila, salto
 		mov x10, x12 				// Restablezco valores temp de contador
 		mov x9, x11					// Restablezco valores temp de contador
-
+		sub x2, x2, TAM_PIXEL       // Restauro el valor de x2
 br lr 
 
 // ----------------- pintar_rectangulo(x, y, color, alto, ancho) -----------------
@@ -124,7 +140,6 @@ pintar_rectangulo:
 		bl pintar_pixel_minimo		// Pintamos pixel con el pincel
 		mov lr, x26 				// Restablecemos la direccion del main para poder volver
 		add x1, x1, TAM_PIXEL 		// Siguiente pixel coordenada x avanzamos de a tam_pixel
-		sub x2, x2, TAM_PIXEL  		// Restablecemos referencia para la fila donde pintar
 		mov x27, lr 				// Guardamos direccion del main para saltar de nuevo
 		bl calcular_direccion		// Restablezco la direccion de referencia x0 para ese "pixel"
 		mov lr, x27 				// Restablecemos la direccion del main para poder volver
