@@ -43,18 +43,25 @@ main:
 
 //-------------------------------------------------------------------------------
 	//pinto maquina pinball
-    mov x1, #50                // coordenada x del centro
+	movz x3, 0x00, lsl 16
+	movk x3, 0x0000, lsl 00
+	mov x1,#10
+	mov x2,#10
+	bl adorno_luminoso
+
+    mov x1, #130                // coordenada x del centro
     mov x2, #200                // coordenada y del centro
-	bl maquina_pinball
+	bl maquina_pinball //lr = x30
+
+	mov x1,#10
+	mov x2,#300
+	bl adorno_luminoso
+
+
+
+
+
 	
-	mov x1, #150                // coordenada x del centro
-    mov x2, #200                // coordenada y del centro
-	bl maquina_pinball
-
-	mov x1, #250                // coordenada x del centro
-    mov x2, #200                // coordenada y del centro
-	bl maquina_pinball
-
 //-------------------------------------------------------------------------------
 
 InfLoop:
@@ -151,9 +158,9 @@ pintar_rectangulo:
 // -----------------pintar_punto(x, y, color): -----------------
 //Pinta un pixel 1x1 en determinada posicion
 pintar_punto:
-	mov x25,lr
+	mov x21,lr
 	bl calcular_direccion
-	mov lr, x25
+	mov lr, x21
 	stur w3,[x0]
 	br lr
 
