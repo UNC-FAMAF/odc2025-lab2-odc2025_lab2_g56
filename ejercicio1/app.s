@@ -10,37 +10,52 @@
 .global pintar_rectangulo
 .global pintar_punto
 .global pintar_circunferencia
-
+.global pintar_circulo
+.global pintar_rectangulo_aux
+.global pintar_escaleritas
+.extern maquina_pinball
 // Importamos rutinas externas
 .extern arcade
 
 //----------------------------------------------------------------------------------
-
-main:
 	// CONVENCIONES:
 	// x0 lo utilizamos para pintar el framebuffer
 	// (x1, x2) = coordenadas (x, y) de un pixel para rutinas 
 	// x3 = color a pintar
 	// x4, x5, x6 = parametros alto, ancho, radio para rutinas
+	//x7 = cantidad
 	// x9 - x15  temporales de uso general
 	// x19 Guarda el ancho de la pantalla
 	// x20 Guarda la dirección base del framebuffer
 	// x26,...,x21 Guarda temporalmente direcciones de memoria para hacer branch
 	// x27 Guarda direccion de memoria para hacer salto a main
+//----------------------------------------------------------------------------------
 
+
+main:
  	mov x20, x0				    // Guarda la direccion base del framebuffer en x20
 	mov x19, SCREEN_WIDTH 	    		// Guarda el ancho de la pantalla en x19
 //---------------------------------------- CODIGO ------------------------------------
 //  PINTAMOS FONDO
-	movz x3, 0xCC, lsl 16
-	movk x3, 0xCCCC, lsl 00
+	movz x3, 0xCA, lsl 16
+	movk x3, 0xAACC, lsl 00
 	bl pintar_fondo
-//------------------------------------------------------------------------------------
 
+//-------------------------------------------------------------------------------
+	//pinto maquina pinball
+    mov x1, #50                // coordenada x del centro
+    mov x2, #200                // coordenada y del centro
+	bl maquina_pinball
+	
+	mov x1, #150                // coordenada x del centro
+    mov x2, #200                // coordenada y del centro
+	bl maquina_pinball
 
-//--------------------------------------------------------------------------------
-// DIBUJAMOS ARCADE 1
-	bl arcade 					// llamamos a subrutina externa
+	mov x1, #250                // coordenada x del centro
+    mov x2, #200                // coordenada y del centro
+	bl maquina_pinball
+
+//-------------------------------------------------------------------------------
 
 InfLoop:
 	b InfLoop
@@ -380,3 +395,22 @@ pintar_circulo:
 		br lr //retorno
 
 //--------
+//recibe (x,y,cantidad de escaleritas,color, ancho y alto de "escalon")
+pintar_escaleritas:
+		mov x26, lr
+		mov x4, x21
+		mov x5, x15
+	loop_escaleritas: 
+		mov x11, x1
+		mov x12, x2
+		bl pintar_rectangulo_aux
+		mov x1,x11
+		mov x2,x12
+		add x1,x1,#10
+		sub x2,x2,#2
+		sub x7,x7,#1
+		cbnz x7,loop_escaleritas
+		
+		mov lr,x26
+		br lr
+
