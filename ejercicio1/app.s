@@ -16,6 +16,7 @@
 .extern maquina_pinball
 // Importamos rutinas externas
 .extern arcade
+.extern arcade_fondo_tablero_sup
 .extern cartel
 .extern adorno_luminoso
 .extern letra_o
@@ -53,16 +54,11 @@ main:
 	movz x3, 0x00, lsl 16
 	movk x3, 0x0000, lsl 00
 
-
-
-
-
-
-	mov x1, #30               // coordenada x del centro
+	mov x1, #30               	// coordenada x del centro
     mov x2, #293                // coordenada y del centro
 	bl maquina_pinball //lr = x30
 
-	mov x1, #111               // coordenada x del centro
+	mov x1, #111               	// coordenada x del centro
     mov x2, #293                // coordenada y del centro
 	bl maquina_pinball //lr = x30
 
@@ -74,8 +70,8 @@ main:
 	mov x2,#80
 	bl adorno_luminoso
 
-	//---------------------------------------------------------------------------------------------
-
+//---------------------------------------------------------------------------------------------
+//ARCADE1:
 	mov x1, #319					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
 	movz x11, 0xD8, lsl 16       	// defino color principal
@@ -87,6 +83,11 @@ main:
 	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
 	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
 	bl arcade_fondo_tablero
+	mov x1, #319					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0xF8, lsl 16       	// defino color principal (ROSA)
+	movk x11, 0x57F3, lsl 0      	// termino de definir color ppal
+	bl arcade_fondo_tablero_sup
 	//Detealles del frente (in/out Fichas)
 	mov x1, #319					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
@@ -113,23 +114,28 @@ main:
 	movk x3, 0xda4d, lsl 0      	// termino de definir color ppal
 	bl arcade_botones_frontales_relleno
 //-----------------------------------------------------------------------------------------------------
-//Arcade_2:	
+//ARCADE2:	
 	mov x1, #413					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
-	movz x11, 0xD8, lsl 16       	// defino color principal
-	movk x11, 0xB2FD, lsl 0      	// termino de definir color ppal
+	movz x11, 0x7B, lsl 16       	// defino color principal
+	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
 	bl arcade_estructura
+	mov x1, #413					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0xb6, lsl 16       	// defino color principal (ROSA)
+	movk x11, 0x7dfe, lsl 0      	// termino de definir color ppal
+	bl arcade_fondo_tablero_sup
 	//Arcade tablero:
 	mov x1, #413					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
-	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
-	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	movz x11, 0xFB, lsl 16       	// defino color principal (CELESTE)
+	movk x11, 0xDA4D, lsl 0      	// termino de definir color ppal
 	bl arcade_fondo_tablero
 	//Detealles del frente (in/out Fichas)
 	mov x1, #413					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
-	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
-	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	movz x11, 0xb6, lsl 16       	// defino color principal (VIOLETA)
+	movk x11, 0x7dfe, lsl 0      	// termino de definir color ppal
 	bl arcade_fichas_out
 	mov x1, #413					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
@@ -146,15 +152,15 @@ main:
 	//Relleno:
 	mov x1, #413					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
-	movz x3, 0xfb, lsl 16       	// defino color principal (AMARILLO)
-	movk x3, 0xda4d, lsl 0      	// termino de definir color ppal
+	movz x3, 0xb6, lsl 16       	// defino color principal (VIOLETA)
+	movk x3, 0x7dfe, lsl 0      	// termino de definir color ppal
 	bl arcade_botones_frontales_relleno
 //-----------------------------------------------------------------------------------------------------
-
+//ARCADE3:
 	mov x1, #507					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
-	movz x11, 0xD8, lsl 16       	// defino color principal
-	movk x11, 0xB2FD, lsl 0      	// termino de definir color ppal
+	movz x11, 0xFF, lsl 16       	// defino color principal (ROSA)
+	movk x11, 0x7CED, lsl 0      	// termino de definir color ppal
 	bl arcade_estructura
 	//Arcade tablero:
 	mov x1, #507				// coordenada x del vertice inferior izquierdo
@@ -162,6 +168,11 @@ main:
 	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
 	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
 	bl arcade_fondo_tablero
+	mov x1, #507					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0x7B, lsl 16       	// defino color principal (ROSA)
+	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	bl arcade_fondo_tablero_sup
 	//Detealles del frente (in/out Fichas)
 	mov x1, #507				// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
@@ -170,8 +181,8 @@ main:
 	bl arcade_fichas_out
 	mov x1, #507					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
-	movz x11, 0xF8, lsl 16       	// defino color principal (ROSA)
-	movk x11, 0x57F3, lsl 0      	// termino de definir color ppal
+	movz x11, 0xFE, lsl 16       	// defino color principal (AMARILLO)
+	movk x11, 0xD94C, lsl 0      	// termino de definir color ppal
 	bl arcade_fichas_in
 	//Botones frontales:
 	//Bordes
@@ -183,8 +194,8 @@ main:
 	//Relleno:
 	mov x1, #507					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
-	movz x3, 0xfb, lsl 16       	// defino color principal (AMARILLO)
-	movk x3, 0xda4d, lsl 0      	// termino de definir color ppal
+	movz x3, 0x7B, lsl 16       	// defino color principal (CELESTE)
+	movk x3, 0xF8FC, lsl 0      	// termino de definir color ppal
 	bl arcade_botones_frontales_relleno
 //-----------------------------------------------------------------------------------------------------
 

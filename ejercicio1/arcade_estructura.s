@@ -108,7 +108,7 @@ arcade_estructura:
 		//Bordes exteriores:
 		//borde inf:
 		movz x3, 0x49, lsl 16
-		movk x3, 0x7D11, lsl 0
+		movk x3, 0x7C15, lsl 0
 		sub x3, x11, x3 
 		add x1, x13, #26
 		sub x2, x14, #26            // variable y
@@ -121,8 +121,8 @@ arcade_estructura:
 			cbnz x9, loop_arcade_pantalla_borde_inf //si no es 0 el contador, vuelvo a loop_arcade_pantalla_borde_inf
 		mov x11, x10				// Restauro X11 luego de todas las llamadas pintar_pixel_minimo
 		//borde sup:
-		add x1, x13, #26              // variable x
-		sub x2, x14, #82                // variable y
+		add x1, x13, #26            // variable x
+		sub x2, x14, #82            // variable y
 		mov x9, #40					//Contador para loop
 		mov x10, x11    	        // Resguardo X11 porque pintar_pixel_minimo la modifica
 		loop_arcade_pantalla_borde_sup:
@@ -237,16 +237,7 @@ arcade_estructura:
 			mov x5, #83		            // ancho
 			mov x4, #44			        // alto (en pixeles de TAM PIXEL)
 			bl pintar_rectangulo_aux		// llamada a la subrutina
-			/*
-			//pantalla frontal:
-			movz x3, 0xff, lsl 16       // defino un color
-			movk x3, 0x56ed, lsl 0      // termino de definir un color 
-			mov x1, #321    			// variable x
-			mov x2, #124                // variable y
-			mov x5, #80		            // ancho
-			mov x4, #36			        // alto (en pixeles de TAM PIXEL)
-			bl pintar_rectangulo_aux		// llamada a la subrutina
-				*/
+			
 			// detalle frontal (linea):
 			mov x3, x11
 			add x1, x13, #3     			// variable x

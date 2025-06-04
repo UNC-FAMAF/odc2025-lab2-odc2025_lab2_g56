@@ -3,13 +3,14 @@
 
 // Declaramos rutinas como globales
 .global arcade_fondo_tablero
+.global arcade_fondo_tablero_sup
 // Importamos rutinas externas
 .extern pintar_pixel_minimo
 
 
 arcade_fondo_tablero:
 //---------------------------------------------------------------------------------------------------------
-//Pinto tablero:
+//Pinto tablero de botones:
         mov x25, lr
 		mov x3, x11					// Defino color                
 		mov x7, #34					// Contador para loop_0
@@ -33,6 +34,22 @@ arcade_fondo_tablero:
 				cbnz x7, loop_arcade_pinto_tablero_0 //si no es 0 el contador, vuelvo a loop_arcade_pinto_tablero_0
 		mov x11, x10				// Restauro X11 luego de todas las llamadas pintar_pixel_minimo
 
-//---------------------------------------------------------------------------------------------------------
-        mov lr, x25
+		mov lr, x25
         br lr
+
+
+//---------------------------------------------------------------------------------------------------------
+
+arcade_fondo_tablero_sup:
+	mov x25, lr
+	mov x3, x11					// Defino color
+	//pantalla frontal:
+	add x1, x1, #2    			// variable x
+	sub x2, x2, #143            // variable y
+	mov x5, #79		            // ancho
+	mov x4, #30			        // alto (en pixeles de TAM PIXEL)
+	bl pintar_rectangulo_aux		// llamada a la subrutina
+	mov lr, x25
+	br lr
+//---------------------------------------------------------------------------------------------------------
+
