@@ -199,19 +199,77 @@ main:
 	bl arcade_botones_frontales_relleno
 //-----------------------------------------------------------------------------------------------------
 
-	movz x3, 0xFF, lsl 16
-	movk x3, 0xFFFF, lsl 00
+	movz x3, 0xFF, lsl 16       	// defino color principal (ROSA)
+	movk x3, 0x7CED, lsl 0 
     mov x1, #370               // coordenada x del centro
     mov x2, #204    
 	bl letra_o
 
+	movz x3, 0xFE, lsl 16       	
+	movk x3, 0xD94C, lsl 0   
 	mov x1, #466              // coordenada x del centro
     mov x2, #204    
 	bl letra_d
 
+	movz x3, 0x7B, lsl 16       	
+	movk x3, 0xF8FC, lsl 0      	
 	mov x1, #560          // coordenada x del centro
     mov x2, #204   
 	bl letra_c
+
+	movz x3, 0xFE, lsl 16       	
+	movk x3, 0xD94C, lsl 0   
+    mov x1, #326               // coordenada x del centro
+    mov x2, #132    
+	bl numero_2
+
+    mov x1, #344               // coordenada x del centro
+    mov x2, #132    
+	bl numero_0
+
+	mov x1, #362               // coordenada x del centro
+    mov x2, #132    
+	bl numero_2
+
+	mov x1, #380               // coordenada x del centro
+    mov x2, #132    
+	bl numero_5
+	
+	movz x3, 0x7B, lsl 16       	
+	movk x3, 0xF8FC, lsl 0     
+    mov x1, #420               // coordenada x del centro
+    mov x2, #132    
+	bl numero_2
+
+    mov x1, #438               // coordenada x del centro
+    mov x2, #132    
+	bl numero_0
+
+	mov x1, #456               // coordenada x del centro
+    mov x2, #132    
+	bl numero_2
+
+	mov x1, #474               // coordenada x del centro
+    mov x2, #132    
+	bl numero_5
+
+	movz x3, 0x90, lsl 16       	// defino color principal (ROSA)
+	movk x3, 0x35ED, lsl 0 
+    mov x1, #514               // coordenada x del centro
+    mov x2, #132    
+	bl numero_2
+
+    mov x1, #532               // coordenada x del centro
+    mov x2, #132    
+	bl numero_0
+
+	mov x1, #550               // coordenada x del centro
+    mov x2, #132    
+	bl numero_2
+
+	mov x1, #568               // coordenada x del centro
+    mov x2, #132    
+	bl numero_5
 
 
 
