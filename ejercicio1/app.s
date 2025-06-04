@@ -15,8 +15,16 @@
 .global pintar_escaleritas
 .extern maquina_pinball
 // Importamos rutinas externas
-.extern arcade
+.extern arcade_estructura
 .extern arcade_fondo_tablero_sup
+.extern arcade_controles_palanca
+.extern arcade_fondo_tablero_sup
+.extern arcade_fichas_out
+.extern arcade_fichas_in
+.extern arcade_botones_frontales_bordes
+.extern arcade_botones_frontales_relleno
+.extern arcade_controles_botones
+.extern arcade_controles_palanca
 .extern cartel
 .extern adorno_luminoso
 .extern letra_o
@@ -88,6 +96,14 @@ main:
 	movz x11, 0xF8, lsl 16       	// defino color principal (ROSA)
 	movk x11, 0x57F3, lsl 0      	// termino de definir color ppal
 	bl arcade_fondo_tablero_sup
+	mov x1, #319					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
+	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	bl arcade_controles_palanca
+	mov x1, #319					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	bl arcade_controles_botones
 	//Detealles del frente (in/out Fichas)
 	mov x1, #319					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
@@ -131,6 +147,14 @@ main:
 	movz x11, 0xFB, lsl 16       	// defino color principal (CELESTE)
 	movk x11, 0xDA4D, lsl 0      	// termino de definir color ppal
 	bl arcade_fondo_tablero
+	mov x1, #413					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
+	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	bl arcade_controles_palanca
+	mov x1, #413					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	bl arcade_controles_botones
 	//Detealles del frente (in/out Fichas)
 	mov x1, #413					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
@@ -165,16 +189,25 @@ main:
 	//Arcade tablero:
 	mov x1, #507				// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
-	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
-	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	movz x11, 0xB6, lsl 16       	// defino color principal (VIOLETA)
+	movk x11, 0x7DFE, lsl 0      	// termino de definir color ppal
 	bl arcade_fondo_tablero
 	mov x1, #507					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
-	movz x11, 0x7B, lsl 16       	// defino color principal (ROSA)
+	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
 	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
 	bl arcade_fondo_tablero_sup
+	mov x1, #507					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
+	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	bl arcade_controles_palanca
+	mov x1, #507					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	bl arcade_controles_botones
+	
 	//Detealles del frente (in/out Fichas)
-	mov x1, #507				// coordenada x del vertice inferior izquierdo
+	mov x1, #507					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
 	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
 	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
