@@ -24,7 +24,7 @@ arcade_estructura:
 		sub x3, x11, x3
 		add x1, x13, #83
 		sub x2, x14, #150
-		mov x5, #83		            // ancho
+		mov x5, #50		            // ancho
 		mov x4, #244		        // alto
 		bl pintar_rectangulo_aux
 	//Frente rectangulo 1 
