@@ -16,8 +16,15 @@
 .extern maquina_pinball
 // Importamos rutinas externas
 .extern arcade
+.extern arcade_fondo_tablero_sup
 .extern cartel
-
+.extern adorno_luminoso
+.extern letra_o
+.extern letra_d
+.extern letra_c
+.extern numero_2
+.extern numero_4
+.extern numero_5
 //----------------------------------------------------------------------------------
 	// CONVENCIONES:
 	// x0 lo utilizamos para pintar el framebuffer
@@ -44,18 +51,233 @@ main:
 
 //-------------------------------------------------------------------------------
 	//pinto maquina pinball
-    mov x1, #50                // coordenada x del centro
-    mov x2, #200                // coordenada y del centro
-	bl maquina_pinball
+	movz x3, 0x00, lsl 16
+	movk x3, 0x0000, lsl 00
+
+	mov x1, #30               	// coordenada x del centro
+    mov x2, #293                // coordenada y del centro
+	bl maquina_pinball //lr = x30
+
+	mov x1, #111               	// coordenada x del centro
+    mov x2, #293                // coordenada y del centro
+	bl maquina_pinball //lr = x30
+
+	mov x1,#50
+	mov x2,#140
+	bl adorno_luminoso
+
+	mov x1,#50
+	mov x2,#80
+	bl adorno_luminoso
+
+//---------------------------------------------------------------------------------------------
+//ARCADE1:
+	mov x1, #319					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0xD8, lsl 16       	// defino color principal
+	movk x11, 0xB2FD, lsl 0      	// termino de definir color ppal
+	bl arcade_estructura
+	//Arcade tablero:
+	mov x1, #319					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
+	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	bl arcade_fondo_tablero
+	mov x1, #319					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0xF8, lsl 16       	// defino color principal (ROSA)
+	movk x11, 0x57F3, lsl 0      	// termino de definir color ppal
+	bl arcade_fondo_tablero_sup
+	//Detealles del frente (in/out Fichas)
+	mov x1, #319					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
+	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	bl arcade_fichas_out
+	mov x1, #319					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0xF8, lsl 16       	// defino color principal (ROSA)
+	movk x11, 0x57F3, lsl 0      	// termino de definir color ppal
+	bl arcade_fichas_in
+
+	//Botones frontales:
+	//Bordes
+	mov x1, #319					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x3, 0x41, lsl 16       	// defino color borde
+	movk x3, 0x1c8e, lsl 0      	// termino de definir color borde
+	bl arcade_botones_frontales_bordes
+	//Relleno:
+	mov x1, #319					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x3, 0xfb, lsl 16       	// defino color principal (AMARILLO)
+	movk x3, 0xda4d, lsl 0      	// termino de definir color ppal
+	bl arcade_botones_frontales_relleno
+//-----------------------------------------------------------------------------------------------------
+//ARCADE2:	
+	mov x1, #413					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0x7B, lsl 16       	// defino color principal
+	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	bl arcade_estructura
+	mov x1, #413					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0xb6, lsl 16       	// defino color principal (ROSA)
+	movk x11, 0x7dfe, lsl 0      	// termino de definir color ppal
+	bl arcade_fondo_tablero_sup
+	//Arcade tablero:
+	mov x1, #413					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0xFB, lsl 16       	// defino color principal (CELESTE)
+	movk x11, 0xDA4D, lsl 0      	// termino de definir color ppal
+	bl arcade_fondo_tablero
+	//Detealles del frente (in/out Fichas)
+	mov x1, #413					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0xb6, lsl 16       	// defino color principal (VIOLETA)
+	movk x11, 0x7dfe, lsl 0      	// termino de definir color ppal
+	bl arcade_fichas_out
+	mov x1, #413					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0xF8, lsl 16       	// defino color principal (ROSA)
+	movk x11, 0x57F3, lsl 0      	// termino de definir color ppal
+	bl arcade_fichas_in
+	//Botones frontales:
+	//Bordes
+	mov x1, #413					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x3, 0x41, lsl 16       	// defino color borde
+	movk x3, 0x1c8e, lsl 0      	// termino de definir color borde
+	bl arcade_botones_frontales_bordes
+	//Relleno:
+	mov x1, #413					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x3, 0xb6, lsl 16       	// defino color principal (VIOLETA)
+	movk x3, 0x7dfe, lsl 0      	// termino de definir color ppal
+	bl arcade_botones_frontales_relleno
+//-----------------------------------------------------------------------------------------------------
+//ARCADE3:
+	mov x1, #507					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0xFF, lsl 16       	// defino color principal (ROSA)
+	movk x11, 0x7CED, lsl 0      	// termino de definir color ppal
+	bl arcade_estructura
+	//Arcade tablero:
+	mov x1, #507				// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
+	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	bl arcade_fondo_tablero
+	mov x1, #507					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0x7B, lsl 16       	// defino color principal (ROSA)
+	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	bl arcade_fondo_tablero_sup
+	//Detealles del frente (in/out Fichas)
+	mov x1, #507				// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
+	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	bl arcade_fichas_out
+	mov x1, #507					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x11, 0xFE, lsl 16       	// defino color principal (AMARILLO)
+	movk x11, 0xD94C, lsl 0      	// termino de definir color ppal
+	bl arcade_fichas_in
+	//Botones frontales:
+	//Bordes
+	mov x1, #507					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x3, 0x41, lsl 16       	// defino color borde
+	movk x3, 0x1c8e, lsl 0      	// termino de definir color borde
+	bl arcade_botones_frontales_bordes
+	//Relleno:
+	mov x1, #507					// coordenada x del vertice inferior izquierdo
+	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
+	movz x3, 0x7B, lsl 16       	// defino color principal (CELESTE)
+	movk x3, 0xF8FC, lsl 0      	// termino de definir color ppal
+	bl arcade_botones_frontales_relleno
+//-----------------------------------------------------------------------------------------------------
+
+	movz x3, 0xFF, lsl 16       	// defino color principal (ROSA)
+	movk x3, 0x7CED, lsl 0 
+    mov x1, #370               // coordenada x del centro
+    mov x2, #204    
+	bl letra_o
+
+	movz x3, 0xFE, lsl 16       	
+	movk x3, 0xD94C, lsl 0   
+	mov x1, #466              // coordenada x del centro
+    mov x2, #204    
+	bl letra_d
+
+	movz x3, 0x7B, lsl 16       	
+	movk x3, 0xF8FC, lsl 0      	
+	mov x1, #560          // coordenada x del centro
+    mov x2, #204   
+	bl letra_c
+
+	movz x3, 0xFE, lsl 16       	
+	movk x3, 0xD94C, lsl 0   
+    mov x1, #326               // coordenada x del centro
+    mov x2, #132    
+	bl numero_2
+
+    mov x1, #344               // coordenada x del centro
+    mov x2, #132    
+	bl numero_0
+
+	mov x1, #362               // coordenada x del centro
+    mov x2, #132    
+	bl numero_2
+
+	mov x1, #380               // coordenada x del centro
+    mov x2, #132    
+	bl numero_5
 	
-	mov x1, #150                // coordenada x del centro
-    mov x2, #200                // coordenada y del centro
-	bl maquina_pinball
+	movz x3, 0x7B, lsl 16       	
+	movk x3, 0xF8FC, lsl 0     
+    mov x1, #420               // coordenada x del centro
+    mov x2, #132    
+	bl numero_2
 
-	mov x1, #250                // coordenada x del centro
-    mov x2, #200                // coordenada y del centro
-	bl maquina_pinball
+    mov x1, #438               // coordenada x del centro
+    mov x2, #132    
+	bl numero_0
 
+	mov x1, #456               // coordenada x del centro
+    mov x2, #132    
+	bl numero_2
+
+	mov x1, #474               // coordenada x del centro
+    mov x2, #132    
+	bl numero_5
+
+	movz x3, 0x90, lsl 16       	// defino color principal (ROSA)
+	movk x3, 0x35ED, lsl 0 
+    mov x1, #514               // coordenada x del centro
+    mov x2, #132    
+	bl numero_2
+
+    mov x1, #532               // coordenada x del centro
+    mov x2, #132    
+	bl numero_0
+
+	mov x1, #550               // coordenada x del centro
+    mov x2, #132    
+	bl numero_2
+
+	mov x1, #568               // coordenada x del centro
+    mov x2, #132    
+	bl numero_5
+
+
+
+
+
+
+
+	
 //-------------------------------------------------------------------------------
 	//Pinto cartel
 	bl cartel
@@ -154,9 +376,9 @@ pintar_rectangulo:
 // -----------------pintar_punto(x, y, color): -----------------
 //Pinta un pixel 1x1 en determinada posicion
 pintar_punto:
-	mov x25,lr
+	mov x21,lr
 	bl calcular_direccion
-	mov lr, x25
+	mov lr, x21
 	stur w3,[x0]
 	br lr
 
