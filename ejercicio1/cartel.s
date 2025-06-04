@@ -177,7 +177,7 @@
                 //1er rectangulo
                 mov x1, #442            // variable x
                 mov x2, #41             // variable y
-                mov x4, #9              // alto 
+                mov x4, #10              // alto 
                 mov x5, #2              // ancho
                 bl pintar_rectangulo    // llamada a la subrutina
                 //2do rectangulo
@@ -198,6 +198,207 @@
                 mov x4, #3              // alto 
                 mov x5, #2              // ancho
                 bl pintar_rectangulo    // llamada a la subrutina
-
+                //5to rectangulo
+                mov x1, #454            // variable x
+                mov x2, #54             // variable y
+                mov x4, #4              // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+            //E
+                //1er rectangulo
+                mov x1, #462            // variable x
+                mov x2, #41             // variable y
+                mov x4, #10              // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //2do rectangulo
+                mov x1, #465            // variable x
+                mov x2, #41             // variable y
+                mov x4, #2              // alto 
+                mov x5, #5              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //3er rectangulo
+                mov x1, #465            // variable x
+                mov x2, #49             // variable y
+                mov x4, #2              // alto 
+                mov x5, #5              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //4to rectangulo
+                mov x1, #465            // variable x
+                mov x2, #57             // variable y
+                mov x4, #2              // alto 
+                mov x5, #5              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+            //A
+                //1er rectangulo
+                mov x1, #483            // variable x
+                mov x2, #41             // variable y
+                mov x4, #5              // alto 
+                mov x5, #5              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //2do rectangulo
+                mov x1, #479            // variable x
+                mov x2, #50             // variable y
+                mov x4, #6              // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //3er rectangulo
+                mov x1, #483            // variable x
+                mov x2, #54             // variable y
+                mov x4, #2              // alto 
+                mov x5, #5              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //4to rectangulo
+                mov x1, #493            // variable x
+                mov x2, #50             // variable y
+                mov x4, #6              // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+            //D
+                //1er rectangulo
+                mov x1, #501            // variable x
+                mov x2, #41             // variable y
+                mov x4, #10             // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //2do rectangulo
+                mov x1, #504            // variable x
+                mov x2, #41             // variable y
+                mov x4, #2              // alto 
+                mov x5, #5              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //2do rectangulo
+                mov x1, #504            // variable x
+                mov x2, #57             // variable y
+                mov x4, #2              // alto 
+                mov x5, #5              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //3er rectangulo
+                mov x1, #514            // variable x
+                mov x2, #44             // variable y
+                mov x4, #7              // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+            //Y
+                //1er rectangulo
+                mov x1, #522            // variable x
+                mov x2, #41             // variable y
+                mov x4, #5             // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //2do rectangulo
+                mov x1, #525            // variable x
+                mov x2, #49             // variable y
+                mov x4, #6              // alto 
+                mov x5, #3              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //3er rectangulo
+                mov x1, #530            // variable x
+                mov x2, #41             // variable y
+                mov x4, #5             // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+            //?
+                //1er rectangulo
+                mov x1, #539            // variable x
+                mov x2, #40             // variable y
+                mov x4, #3             // alto 
+                mov x5, #3              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //2do rectangulo
+                mov x1, #543            // variable x
+                mov x2, #45             // variable y
+                mov x4, #3             // alto 
+                mov x5, #3              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //3er rectangulo
+                mov x1, #539            // variable x
+                mov x2, #49             // variable y
+                mov x4, #2             // alto 
+                mov x5, #3              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //4to rectangulo
+                mov x1, #539            // variable x
+                mov x2, #56             // variable y
+                mov x4, #2             // alto 
+                mov x5, #3              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+            //O
+                //1er rectangulo
+                mov x1, #565            // variable x
+                mov x2, #45             // variable y
+                mov x4, #6             // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //2do rectangulo
+                mov x1, #569            // variable x
+                mov x2, #41             // variable y
+                mov x4, #2             // alto 
+                mov x5, #5              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //3er rectangulo
+                mov x1, #569            // variable x
+                mov x2, #57             // variable y
+                mov x4, #2             // alto 
+                mov x5, #5              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //4to rectangulo
+                mov x1, #579            // variable x
+                mov x2, #45             // variable y
+                mov x4, #6             // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+            //K
+                //1er rectangulo
+                mov x1, #587            // variable x
+                mov x2, #41             // variable y
+                mov x4, #10             // alto 
+                mov x5, #3              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //2do rectangulo
+                mov x1, #590            // variable x
+                mov x2, #49             // variable y
+                mov x4, #3             // alto 
+                mov x5, #3              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //3er rectangulo
+                mov x1, #596            // variable x
+                mov x2, #46             // variable y
+                mov x4, #2             // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //4to rectangulo
+                mov x1, #600            // variable x
+                mov x2, #42             // variable y
+                mov x4, #3             // alto 
+                mov x5, #3              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //5to rectangulo
+                mov x1, #596            // variable x
+                mov x2, #53             // variable y
+                mov x4, #2             // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //6to rectangulo
+                mov x1, #600            // variable x
+                mov x2, #55             // variable y
+                mov x4, #3             // alto 
+                mov x5, #3              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+            //!
+                //1er rectangulo
+                mov x1, #610            // variable x
+                mov x2, #41             // variable y
+                mov x4, #6             // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                //2do rectangulo
+                mov x1, #610            // variable x
+                mov x2, #57             // variable y
+                mov x4, #2              // alto 
+                mov x5, #2              // ancho
+                bl pintar_rectangulo    // llamada a la subrutina
+                
+               
             mov lr, x25
      br lr
