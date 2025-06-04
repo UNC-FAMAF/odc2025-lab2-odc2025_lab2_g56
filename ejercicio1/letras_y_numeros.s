@@ -1,33 +1,12 @@
 .global letra_o
 .global letra_d
 .global letra_c
-.global numero_2
 .global numero_0
+.global numero_2
 .global numero_5
-
 .extern pintar_rectangulo
 .extern pintar_pixel_minimo
-    /*movz x3, 0xFF, lsl 16
-	movk x3, 0x57EE, lsl 00
-    mov x1,x13
-    mov x2,x14
-    add x1,x1,#6
-    add x2,x2,#4
-    bl pintar_pixel_minimo
-    sub x1,x1,#2
-    add x2,x2,#2
-    bl pintar_pixel_minimo
-    add x1,x1,#4
-    bl pintar_pixel_minimo
-    sub x1,x1,#2
-    add x2,x2,#2
-    bl pintar_pixel_minimo
-    add x1,x1,#4
-    bl pintar_pixel_minimo
-    sub x1,x1,#2
-    add x2,x2,#2
-    bl pintar_pixel_minimo
-*/
+
 //_______________________________________________________________________________________________
 
 letra_o:
@@ -347,62 +326,42 @@ numero_5:
     mov x25,lr
     mov x13,x1
     mov x14,x2
-
+//linea horizontal 1
     mov x4,#1
     mov x5,#7
     bl pintar_rectangulo
+//linea vertical 1
     mov x4,#4
     mov x5,#1
     bl pintar_rectangulo
+//linea horizontal 2
     mov x4,#1
     mov x5,#6
     bl pintar_rectangulo
+//rectangulito 1
     add x1,x1,#10
     mov x4,#1
     mov x5,#2
     bl pintar_rectangulo
+//linea vertical 2
     add x1,x1,#2
     mov x4,#3
     mov x5,#1
     bl pintar_rectangulo
+//rectangulito 2
     sub x1,x1,#2
     mov x4,#1
     mov x5,#2
     bl pintar_rectangulo
+//linea horizontal 2
     mov x1,x13
     mov x2,x14
     add x2,x2,#22
     mov x4,#1
     mov x5,#6
     bl pintar_rectangulo
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
 //retorno
     mov lr,x25
     br lr 
 
+//termina archivo
