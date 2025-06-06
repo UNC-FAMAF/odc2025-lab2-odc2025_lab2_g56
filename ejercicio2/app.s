@@ -36,13 +36,135 @@ main:
 	loop_animacion:
 		bl backup_rectangulo			// Backup de pixels del plano animado
 		bl caracol			        	// Renderizamos la figura a animar
-		movz x10, 0xFF, lsl 16       	// Defino timpo del delay
+		
+		
+		movz x3, 0xfc, lsl 16   // defino el color
+		movk x3, 0x52f7, lsl 0  // termino de definir un color
+		bl circulosg1
+		mov x1, #370            // coordenada x del centro
+    	mov x2, #204    
+		bl letra_o
+
+		movz x3, 0x75, lsl 16   // defino el color
+		movk x3, 0xfcfc, lsl 0  // termino de definir un color
+		bl circulosg2
+		mov x1, #466                    // coordenada x del centro
+    	mov x2, #204    
+		bl letra_d
+
+		movz x3, 0xfb, lsl 16   // defino el color
+		movk x3, 0xd65a, lsl 0  // termino de definir un color
+		bl circulosg3
+		mov x1, #560                    // coordenada x del centro
+ 		mov x2, #204   
+		bl letra_c
+
+		movz x10, 0x04FF, lsl 16       	// Defino timpo del delay
 		movk x10, 0xFFFF, lsl 0      	// termino de definir tiempo del delay
 		bl delay						// Subrutina de delay	
 		bl restore_rectangulo
 		add x1,x1,#1					// Intervalo de desplazamiento
 		sub x9,x9,#1					// Decremento de contador de iteraciones
+
+
+		bl backup_rectangulo			// Backup de pixels del plano animado
+		bl caracol
+		movz x10, 0x04FF, lsl 16       	// Defino timpo del delay
+		movk x10, 0xFFFF, lsl 0      	// termino de definir tiempo del delay
+		bl delay						// Subrutina de delay	
+		bl restore_rectangulo
+		add x1,x1,#1					// Intervalo de desplazamiento
+		sub x9,x9,#1					// Decremento de contador de iteraciones
+
+		// Repetimos el proceso con los colores cambiados
+		
+		bl backup_rectangulo			// Backup de pixels del plano animado
+		bl caracol
+		movz x3, 0x75, lsl 16   // defino el color
+		movk x3, 0xfcfc, lsl 0  // termino de definir un color
+		bl circulosg1
+		mov x1, #370            // coordenada x del centro
+    	mov x2, #204    
+		bl letra_o
+
+		movz x3, 0xfb, lsl 16   // defino el color
+		movk x3, 0xd65a, lsl 0  // termino de definir un color
+		bl circulosg2
+		mov x1, #466                    // coordenada x del centro
+    	mov x2, #204    
+		bl letra_d
+
+		movz x3, 0xfc, lsl 16   // defino el color
+		movk x3, 0x52f7, lsl 0  // termino de definir un color
+		bl circulosg3
+		mov x1, #560                    // coordenada x del centro
+ 		mov x2, #204   
+		bl letra_c
+
+
+		movz x10, 0x04FF, lsl 16       	// Defino timpo del delay
+		movk x10, 0xFFFF, lsl 0      	// termino de definir tiempo del delay
+		bl delay						// Subrutina de delay	
+		bl restore_rectangulo
+		add x1,x1,#1					// Intervalo de desplazamiento
+		sub x9,x9,#1					// Decremento de contador de iteraciones
+
+		bl backup_rectangulo			// Backup de pixels del plano animado
+		bl caracol
+		movz x10, 0x04FF, lsl 16       	// Defino timpo del delay
+		movk x10, 0xFFFF, lsl 0      	// termino de definir tiempo del delay
+		bl delay						// Subrutina de delay	
+		bl restore_rectangulo
+		add x1,x1,#1					// Intervalo de desplazamiento
+		sub x9,x9,#1					// Decremento de contador de iteraciones
+
+		// Repetimos el proceso con los colores cambiados
+
+		bl backup_rectangulo			// Backup de pixels del plano animado
+		bl caracol
+		movz x3, 0xfb, lsl 16   // defino el color
+		movk x3, 0xd65a, lsl 0  // termino de definir un color
+		bl circulosg1
+		mov x1, #370            // coordenada x del centro
+    	mov x2, #204    
+		bl letra_o
+
+		movz x3, 0xfc, lsl 16   // defino el color
+		movk x3, 0x52f7, lsl 0  // termino de definir un color
+		bl circulosg2
+		mov x1, #466                    // coordenada x del centro
+    	mov x2, #204    
+		bl letra_d
+
+		movz x3, 0x75, lsl 16   // defino el color
+		movk x3, 0xfcfc, lsl 0  // termino de definir un color
+		bl circulosg3
+		mov x1, #560                    // coordenada x del centro
+ 		mov x2, #204   
+		bl letra_c
+
+		movz x10, 0x04FF, lsl 16       	// Defino timpo del delay
+		movk x10, 0xFFFF, lsl 0      	// termino de definir tiempo del delay
+		bl delay						// Subrutina de delay	
+		bl restore_rectangulo
+		add x1,x1,#1					// Intervalo de desplazamiento
+		sub x9,x9,#1					// Decremento de contador de iteraciones
+
+		bl backup_rectangulo			// Backup de pixels del plano animado
+		bl caracol
+		movz x10, 0x04FF, lsl 16       	// Defino timpo del delay
+		movk x10, 0xFFFF, lsl 0      	// termino de definir tiempo del delay
+		bl delay						// Subrutina de delay	
+		bl restore_rectangulo
+		add x1,x1,#1					// Intervalo de desplazamiento
+		sub x9,x9,#1					// Decremento de contador de iteraciones
+		
+		// Repetimos el proceso con los colores cambiados
+
 		cbnz x9,loop_animacion
+
+//--------------------------------------------------------------------------------------
+
 InfLoop:
 	b InfLoop
 //--------------------------------------------------------------------------------------

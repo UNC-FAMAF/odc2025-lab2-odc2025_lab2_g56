@@ -31,19 +31,19 @@ imagen_estatica:
 	movz x3, 0x00, lsl 16
 	movk x3, 0x0000, lsl 00
 
-	mov x1, #30               	    // coordenada x del centro
+	mov x1, #20               	    // coordenada x del centro
     mov x2, #293                    // coordenada y del centro
 	bl maquina_pinball 
 
-	mov x1, #111               	    // coordenada x del centro
+	mov x1, #101               	    // coordenada x del centro
     mov x2, #293                    // coordenada y del centro
 	bl maquina_pinball 
 
-	mov x1,#50                      // coordenada x del centro 
+	mov x1,#32                      // coordenada x del centro 
 	mov x2,#140                     // coordenada Y del centro
 	bl adorno_luminoso
 
-	mov x1,#50                      // coordenada x del centro
+	mov x1,#32                      // coordenada x del centro
 	mov x2,#80                      // coordenada Y del centro
 	bl adorno_luminoso
 
@@ -118,8 +118,8 @@ imagen_estatica:
 	bl arcade_fondo_tablero
 	mov x1, #413					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
-	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
-	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	movz x3, 0x7B, lsl 16       	// defino color principal (CELESTE)
+	movk x3, 0xF8FC, lsl 0      	// termino de definir color ppal
 	bl arcade_controles_palanca
 	mov x1, #413					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
@@ -169,8 +169,8 @@ imagen_estatica:
 	bl arcade_fondo_tablero_sup
 	mov x1, #507					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
-	movz x11, 0x7B, lsl 16       	// defino color principal (CELESTE)
-	movk x11, 0xF8FC, lsl 0      	// termino de definir color ppal
+	movz x3, 0xFE, lsl 16       	// defino color principal (AMARILLO)
+	movk x3, 0xD94C, lsl 0      	// termino de definir color ppal
 	bl arcade_controles_palanca
 	mov x1, #507					// coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
