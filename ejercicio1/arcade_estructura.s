@@ -34,11 +34,27 @@ arcade_estructura:
 		movk x3, 0x1C8E, lsl 0      // termino de definir un color
 		add x1, x13, #90
 		sub x2, x14, #149
-		mov x5, #26		            // ancho
+		mov x5, #20		            // ancho
 		mov x4, #22			        // alto
 		mov x7, x11					// Backup de x11 en x7
 		bl patron_cuadriculado
 		mov x11, x7					// Restauro x7
+
+		add x1, x13, #90
+		add x2, x14, #2
+		mov x5, #20		            // ancho
+		mov x4, #46			        // alto
+		mov x7, x11					// Backup de x11 en x7
+		bl patron_cuadriculado
+		mov x11, x7					// Restauro x7
+
+		add x1, x13, #116
+		sub x2, x14, #80
+		mov x5, #8		            // ancho
+		mov x4, #28			        // alto
+		mov x7, x11					// Backup de x11 en x7
+		bl patron_cuadriculado
+		mov x11, x7	
 	//Frente rectangulo 1 
 		//Bordes
 		movz x3, 0x41, lsl 16       // defino un color

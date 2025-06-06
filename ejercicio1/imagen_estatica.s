@@ -156,6 +156,32 @@ imagen_estatica:
 	movz x11, 0xFF, lsl 16       	// defino color principal (ROSA)
 	movk x11, 0x7CED, lsl 0      	// termino de definir color ppal
 	bl arcade_estructura
+	//Borro sombras de pared lateral:
+		movz x3, 0xb6, lsl 16       	// defino color principal (ROSA)
+		movk x3, 0x00d8, lsl 0      	// termino de definir color ppal
+		add x1, x13, #90
+		sub x2, x14, #149
+		mov x5, #43		            // ancho
+		mov x4, #44			        // alto
+		mov x7, x11					// Backup de x11 en x7
+		bl pintar_rectangulo_aux
+		mov x11, x7					// Restauro x7
+
+		add x1, x13, #90
+		add x2, x14, #2
+		mov x5, #43		            // ancho
+		mov x4, #92			        // alto
+		mov x7, x11					// Backup de x11 en x7
+		bl pintar_rectangulo_aux
+		mov x11, x7					// Restauro x7
+
+		add x1, x13, #116
+		sub x2, x14, #80
+		mov x5, #17		            // ancho
+		mov x4, #56			        // alto
+		mov x7, x11					// Backup de x11 en x7
+		bl pintar_rectangulo_aux
+		mov x11, x7	
 //Arcade tablero:------------------------------------------------------------------------------------
 	mov x1, #507				    // coordenada x del vertice inferior izquierdo
 	mov x2, #272					// coordenada y del vertice inferior izquierdo del tablero
