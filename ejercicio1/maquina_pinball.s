@@ -1,57 +1,27 @@
 .include "constantes.s"
-
+//--------------------DECLARAMOS RUTINAS COMO GLOBALES-------------------
 .global maquina_pinball
-
+//--------------------IMPORTAMOS RUTINAS NECESARIAS----------------------
 .extern pintar_circulo
 .extern pintar circunferencia
 .extern pintar_rectangulo
 .extern pintar_rectangulo_aux
 .extern pintar_escaleritas
-	// CONVENCIONES:
-	// x0 lo utilizamos para pintar el framebuffer
-	// (x1, x2) = coordenadas (x, y) de un pixel para rutinas 
-	// x3 = color a pintar
-	// x4, x5, x6 = parametros alto, ancho, radio para rutinas
-	// x9 - x15  temporales de uso general
-	// x19 Guarda el ancho de la pantalla
-	// x20 Guarda la dirección base del framebuffer
-	// x26,...,x21 Guarda temporalmente direcciones de memoria para hacer branch
-	// x27 Guarda direccion de memoria para hacer salto a main
-//(x1=x , x2=y)
-// mov x1,x9
-// mov x2,x10
+//------------------------------------------------------------------------
+//rutina maquina pinball
 maquina_pinball:
-//cuerpo
     mov x22,lr
     mov x13,x1
     mov x14,x2
-
-    /*     
-    movz x3, 0x26, lsl 16
-	movk x3, 0x00AF, lsl 00
-    mov x4,#13
-    mov x5,#32
-    bl pintar_rectangulo
-
-    movz x3, 0x93, lsl 16
-	movk x3, 0x33EC, lsl 00
-    mov x1,x13
-    mov x2,x14
-    add x1,x1,#2
-    add x2,x2,#2
-    mov x4,#11
-    mov x5,#30
-    bl pintar_rectangulo */
-
-//pata #1
+//pata 1
     movz x3, 0x26, lsl 16
 	movk x3, 0x00AF, lsl 00
     mov x1,x13
     mov x2,x14
     add x1,x1,#2
     add x2,x2,#24
-    mov x4,#24    //alto parte externa
-    mov x5,#5     //ancho parte externa
+    mov x4,#24    
+    mov x5,#5     
     bl pintar_rectangulo
 
     movz x3, 0x91, lsl 16
@@ -60,19 +30,19 @@ maquina_pinball:
     mov x2,x14
     add x1,x1,#4
     add x2,x2,#26
-    mov x4,#22  //alto parte interna
-    mov x5,#3   //ancho parte interna
+    mov x4,#22  
+    mov x5,#3   
     bl pintar_rectangulo
 
-//pata #2
+//pata 2
     movz x3, 0x26, lsl 16
 	movk x3, 0x00AF, lsl 00
     mov x1,x13
     mov x2,x14
     add x1,x1,#60
     add x2,x2,#24
-    mov x4,#24    //alto parte externa
-    mov x5,#5     //ancho parte externa
+    mov x4,#24    
+    mov x5,#5     
     bl pintar_rectangulo
 
     movz x3, 0x91, lsl 16
@@ -81,19 +51,19 @@ maquina_pinball:
     mov x2,x14
     add x1,x1,#62
     add x2,x2,#26
-    mov x4,#22  //alto parte interna
-    mov x5,#3   //ancho parte interna
+    mov x4,#22  
+    mov x5,#3   
     bl pintar_rectangulo
 
-//pata #3
+//pata 3
     movz x3, 0x26, lsl 16
 	movk x3, 0x00AF, lsl 00
     mov x1,x13
     mov x2,x14
     add x1,x1,#46
     add x2,x2,#24
-    mov x4,#18  //alto parte externa
-    mov x5,#5   //ancho parte externa
+    mov x4,#18  
+    mov x5,#5   
     bl pintar_rectangulo
 
     movz x3, 0x91, lsl 16
@@ -102,19 +72,19 @@ maquina_pinball:
     mov x2,x14
     add x1,x1,#48
     add x2,x2,#26
-    mov x4,#16  //alto parte interna
-    mov x5,#3   //ancho parte interna
+    mov x4,#16  
+    mov x5,#3   
     bl pintar_rectangulo
 
-//pata #4
+//pata 4
     movz x3, 0x26, lsl 16
 	movk x3, 0x00AF, lsl 00
     mov x1,x13
     mov x2,x14
     add x1,x1,#120
     sub x2,x2,#4
-    mov x4,#31    //alto parte externa
-    mov x5,#5     //ancho parte externa
+    mov x4,#31    
+    mov x5,#5     
     bl pintar_rectangulo
 
     movz x3, 0x91, lsl 16
@@ -122,11 +92,11 @@ maquina_pinball:
     mov x1,x13
     mov x2,x14
     add x1,x1,#122
-    mov x4,#28  //alto parte interna
-    mov x5,#3   //ancho parte interna
+    mov x4,#28  
+    mov x5,#3   
     bl pintar_rectangulo
 
-//pinto paralelogramo #1
+//paralelogramo 1
     movz x3, 0x91, lsl 16
 	movk x3, 0x33ED, lsl 00
     mov x1,x13
@@ -145,7 +115,8 @@ maquina_pinball:
     mov x7,#7
     mov x15,#12
     bl pintar_escaleritas
-//pinto paralelogramo #2
+
+//paralelogramo 2
     movz x3, 0x00, lsl 16
 	movk x3, 0x66CC, lsl 00
     mov x1,x13
@@ -177,7 +148,8 @@ maquina_pinball:
     mov x7,#7
     mov x15,#12
     bl pintar_escaleritas
-//pinto frente de la maquina
+
+//frente de la maquina
     movz x3, 0x26, lsl 16
 	movk x3, 0x00AF, lsl 00
     mov x1,x13
@@ -205,9 +177,8 @@ maquina_pinball:
     mov x4,#50 
     mov x5,#1   
     bl pintar_rectangulo
-//pinto pantalla
-
-
+    
+//pantalla
     movz x3, 0x26, lsl 16
 	movk x3, 0x00AF, lsl 00
     mov x1,x13
@@ -218,8 +189,6 @@ maquina_pinball:
     mov x5,#34  
     bl pintar_rectangulo
 
-   // movz x3, 0x6D, lsl 16
-	//movk x3, 0xEEF4, lsl 00
     movz x3, 0x91, lsl 16
 	movk x3, 0x33ED, lsl 00
     mov x1,x13
@@ -240,8 +209,9 @@ maquina_pinball:
     mov x5,#28  
     bl pintar_rectangulo
 
-//pinto detallitos
-//primer "OJO" de la maquina
+//detallitos
+
+    //primer "OJO" de la maquina
     movz x3, 0x26, lsl 16
 	movk x3, 0x00AF, lsl 00
     mov x1,x13
@@ -259,7 +229,8 @@ maquina_pinball:
     add x2,x2,#3
     mov x6,#2
     bl pintar_circulo
-//otro "OJO"
+    
+    //segundo "OJO" de la maquina
     movz x3, 0x26, lsl 16
 	movk x3, 0x00AF, lsl 00
     mov x1,x13
@@ -278,7 +249,7 @@ maquina_pinball:
     mov x6,#2
     bl pintar_circulo
 
-//parte externa de la "BOCA"
+    //parte externa de la "BOCA"
     movz x3, 0x26, lsl 16
 	movk x3, 0x00AF, lsl 00
     mov x1,x13
@@ -308,7 +279,7 @@ maquina_pinball:
     mov x5,#12 
     bl pintar_rectangulo_aux
 
-//parte interna de la "BOCA"
+    //parte interna de la "BOCA"
     movz x3, 0xFF, lsl 16
 	movk x3, 0x54EB, lsl 00
     mov x1,x13
@@ -335,18 +306,7 @@ maquina_pinball:
     mov x4,#3
     mov x5,#12
     bl pintar_rectangulo_aux
-
-
-    
-
-
+//retorno
     mov lr,x22
     br lr
-
-
-
-    
-
-
-
-
+//------------------------------------------------------------------------
